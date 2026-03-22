@@ -7,25 +7,28 @@ set -e
 echo "Installing core dependencies..."
 source venv/bin/activate
 
-# Install core packages first (these have wheels)
-pip install --prefer-binary \
-  fastapi uvicorn pydantic pytest pytest-asyncio pytest-mock pytest-benchmark \
-  httpx pydantic-settings websockets python-jose python-multipart passlib \
-  sqlalchemy asyncpg aiosqlite redis click alembic \
-  asyncio-mqtt aiohttp paramiko prometheus-client \
-  black flake8 mypy
+# Upgrade pip using python.exe -m (MINGW64 workaround)
+python.exe -m pip install --quiet --upgrade pip
+
+# Install ONLY core packages that have pure-Python wheels
+python.exe -m pip install --quiet \
+  fastapi==0.95.0 \
+  uvicorn==0.20.0 \
+  pytest==7.0.0 \
+  click==8.0.0
 
 echo ""
-echo "✓ Core environment ready!"
+echo "✓ Core environment ready! (4 packages, zero compilation)"
 echo ""
-echo "To add scientific packages (numpy/scipy/torch), choose an option:"
+echo "To add optional packages later, you can try:"
 echo ""
-echo "Option 1: Install openblas first, then scipy"
-echo "  pacman -S mingw-w64-x86_64-openblas"
-echo "  pip install --prefer-binary numpy scipy"
+echo "Option 1: Install pure-Python packages"
+echo "  pip install websockets pyyaml"
 echo ""
-echo "Option 2: Skip scientific packages (use CPU-only mode for now)"
-echo "  pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu"
+echo "Option 2: Install NumPy/SciPy (requires build tools)"
+echo "  pacman -S mingw-w64-x86_64-openblas mingw-w64-x86_64-gcc-fortran"
+echo "  pip install numpy scipy"
 echo ""
-echo "Option 3: Use conda instead (recommended for scientific stack on Windows)"
-echo "  conda install -c conda-forge numpy scipy scikit-learn opencv"
+echo "Option 3: Use Docker (easiest for full stack)"
+echo "  docker pull ruvnet/wifi-densepose:latest"
+echo ""

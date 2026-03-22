@@ -29,12 +29,12 @@ echo.
 REM Step 3: Activate and upgrade pip
 echo [3/4] Upgrading pip and build tools...
 call venv\Scripts\activate.bat
-python -m pip install --upgrade pip setuptools wheel
+python.exe -m pip install --quiet --upgrade pip setuptools wheel
 echo.
 
 REM Step 4: Install core requirements
 echo [4/5] Installing core dependencies...
-pip install --prefer-binary -r requirements-core.txt
+python.exe -m pip install --quiet --prefer-binary -r requirements-core.txt
 
 if %errorlevel% equ 0 (
     echo Core dependencies installed
@@ -47,7 +47,7 @@ echo.
 echo [5/5] Installing optional scientific packages...
 echo Note: This may fail if build tools are not properly configured.
 echo The application will work without these, but ML features may be limited.
-pip install --prefer-binary -r requirements-optional.txt
+python.exe -m pip install --quiet --prefer-binary -r requirements-optional.txt
 
 if %errorlevel% equ 0 (
     echo Scientific packages installed

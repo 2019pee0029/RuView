@@ -37,13 +37,13 @@ echo ""
 # Step 3: Activate and upgrade pip
 echo -e "${BLUE}[3/4]${NC} Upgrading pip and build tools..."
 source venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
+python.exe -m pip install --quiet --upgrade pip setuptools wheel
 echo -e "${GREEN}✓ Pip upgraded${NC}"
 echo ""
 
 # Step 4: Install core requirements
 echo -e "${BLUE}[4/5]${NC} Installing core dependencies..."
-pip install --prefer-binary -r requirements-core.txt
+python.exe -m pip install --quiet --prefer-binary -r requirements-core.txt
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Core dependencies installed${NC}"
@@ -56,7 +56,7 @@ echo ""
 echo -e "${BLUE}[5/5]${NC} Installing optional scientific packages..."
 echo "Note: This may fail if build tools are not properly configured."
 echo "The application will work without these, but ML features may be limited."
-pip install --prefer-binary -r requirements-optional.txt 2>/dev/null
+python.exe -m pip install --quiet --prefer-binary -r requirements-optional.txt 2>/dev/null
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Scientific packages installed${NC}"
